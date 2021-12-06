@@ -9,6 +9,7 @@ jobs:
     steps:
 
     - uses: actions/checkout@v2
+    
     - name: Capture Triggered PR
-    - run: |
+      run: |
         latest_pr_opened=`gh pr list -s open | awk '{$1=$NF=""; print $0}' | head -1`
