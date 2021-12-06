@@ -13,3 +13,6 @@ jobs:
     - name: Capture Triggered PR
       run: |
         latest_pr_opened=`gh pr list -s open | awk '{$1=$NF=""; print $0}' | head -1`
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        PR: ${{ github.event.number }}
