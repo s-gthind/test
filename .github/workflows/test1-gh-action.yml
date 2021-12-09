@@ -1,0 +1,16 @@
+# This is a basic workflow to capture and process gh action 
+name: test_gh_action
+on:
+  pull_request:
+    types: ['opened']
+
+jobs:
+  github-action:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkput@v2
+#################     Checkout to test repo ############
+    - name: Capture Triggered PR
+      run: |
+        latest_pr_opened=`gh pr list -s open | awk '{$1=$NF=""; print $0}' | head -1`
+        echo $latest_pr_opened
