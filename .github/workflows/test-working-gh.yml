@@ -12,8 +12,10 @@ jobs:
     
     - name: Capture Triggered PR
       run: |
-        latest_pr_opened=`gh pr list -s open | awk '{$1=$NF=""; print $0}' | head -1`
-        gh pr comment "$PR" --body "Thank you for opening this issue!"
+        lpr=$(gh pr list -s open | awk '{$1=$(NF-1)=$NF=""; print $0}' | head -20 | egrep  "( *[a-zA-Z]{1,5}\-[0-9]{1,6} *)" | wc -l)
+#        echo $lpr
+#        if [ $lpr -eq 1 ]; then echo test; fi
+#        gh pr comment "$PR" --body "Thank you for opening this issue!"
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         PR: ${{ github.event.number }}
