@@ -14,7 +14,7 @@ jobs:
       run: |
         lpr=$(gh pr list -s open | awk '{$1=$(NF-1)=$NF=""; print $0}' | head -1 | egrep  "( *[a-zA-Z]{1,5}\-[0-9]{1,6} *)" | wc -l)
         echo $lpr
-        if [ $lpr -eq 1 ]; then echo test; fi
+        if [ $lpr -eq 1 ]; then echo "All Good"; else gh pr comment "$PR" --body "Please add ticket to this PR!" fi
 #        gh pr comment "$PR" --body "Thank you for opening this issue!"
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
