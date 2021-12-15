@@ -14,8 +14,8 @@ jobs:
       run: |
         branch_name=$(gh pr view  $PR --jq=.headRefName --json=headRefName)
         echo $branch_name
-#        ticket_number=$(egrep ([a-zA-Z]{1,5}\-[0-9]{1,6}) $branch_name ) 
-#        echo $ticket_number
+        ticket_number=$(egrep ([a-zA-Z]{1,5}\-[0-9]{1,6}) $branch_name ) 
+        echo $ticket_number
 #        gh pr view "$PR"
 #        lpr=$(gh pr list -s open | awk '{$1=$(NF-1)=$NF=""; print $0}' | head -1 | egrep  "( *[a-zA-Z]{1,5}\-[0-9]{1,6} *)" | wc -l)
 #        echo $lpr
