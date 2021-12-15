@@ -25,7 +25,7 @@ jobs:
         tPR=$(gh pr view  $PR --jq=.title --json=title)
         echo $tPR
         
-        if [[ $tPR != *$tn*  ]]; then gh pr edit $PR -t "$tn $tPR" -b "Added Ticket Number $tn to Title " ; fi
+        if [[ $tPR != *$tn*  ]]; then gh pr edit $PR -t "$tn $tPR" ; fi
         echo $(gh pr view  $PR --jq=.title --json=title)
 #        ticket_number=$(egrep ([a-zA-Z]{1,5}\-[0-9]{1,6}) $branch_name ) 
 #        echo $ticket_number
