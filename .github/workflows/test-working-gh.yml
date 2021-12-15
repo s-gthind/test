@@ -12,8 +12,8 @@ jobs:
     
     - name: Capture Triggered PR
       run: |
-        branch_name=$(gh pr view  $PR --jq=.headRefName --json=headRefName)
-        echo $branch_name
+        Ticket_number=$(gh pr view  $PR --jq=.headRefName --json=headRefName | tr "_" " "|  awk '{print $1}')
+        echo $Ticket_number
 #        ticket_number=$(egrep ([a-zA-Z]{1,5}\-[0-9]{1,6}) $branch_name ) 
 #        echo $ticket_number
 #        gh pr view "$PR"
