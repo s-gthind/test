@@ -20,6 +20,7 @@ jobs:
         cpr=$(gh pr view  $PR --jq=.title --json=title)
         echo $cpr
         if [[ $cpr =~ (prodsup|PRODSUP|Prodsup|ProdsUp)  ]]; then echo "yay"; exit 0 ; fi
+        echo "test next line"
 
 
 
