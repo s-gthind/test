@@ -10,17 +10,34 @@ jobs:
 
     - uses: actions/checkout@v2
 
-# Check if its a PRODSUP ticket
-
-# Extracting Ticket Number from triggered PR event  
-
+###########################################################################################################################
+#                                                                                                                         #
+# This Action checks the following condition and updates the PR title appropriately.                                      #
+#     1. If the ticket is ProdsUP then ignore updating the PR tite and add a comment to associate AIA ticket with PRODSUP #
+#     2. Every ticket should contain the corresponding AIA-XXXXXXX / OPS-XXXXXXXX / AXIOME-XXXXXXX                        #
+#                                                                                                                         #
+#                                                                                                                         #
+# OPS-1938 https://mindbridge-ai.atlassian.net/browse/OPS-1938                                                            #
+###########################################################################################################################
 
     - name: Capture Triggered PR
       run: |
-        cpr=$(gh pr view  $PR --jq=.title --json=title)
-        echo $cpr
-        if [[ $cpr =~ (prodsup|PRODSUP|Prodsup|ProdsUp)  ]]; then echo "yay"; exit 0 ; fi
-        echo "test next line"
+        cPR=$(gh pr view  $PR --jq=.title --json=title)
+        echo $cPR
+        if [[ $cPR =~ (prodsup|PRODSUP|Prodsup|ProdsUp)  ]]; then gh pr comment "$PR" --body "Please add an AIA Jira ticket to the title of this pull request so we can track it for change management and to make it easier to find during annual audits. Pull requests for this repository should be tied to one or more Jira tickets."; exit 0 ; fi
+        
+        cb=$(gh pr view  $PR --jq=.headRefName --json=headRefName | tr "_" "-")
+        echo $cb
+        subString1=$(echo $cb | cut -d'-' -f 1)
+        subString2=$(echo $cb | cut -d'-' -f 2)
+        tn=$(echo "$subString1-$subString2")
+        echo $tn
+        
+        tPR=$(gh pr view  $PR --jq=.title --json=title)
+        echo $tPR
+        
+        if [[ $tPR != *$tn*  ]]; then gh pr edit $PR -t "$tn $tPR" ; fi
+        echo $(gh pr view  $PR --jq=.title --json=title)
 
 
 
