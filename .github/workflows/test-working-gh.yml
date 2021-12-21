@@ -16,7 +16,8 @@ jobs:
     - name: Capture Triggered PR
       run: |
         cpr=$(gh pr view  $PR --jq=.title --json=title)
-        if[[ $cpr =~ (prodsup|PRODSUP|Prodsup|ProdsUp)  ]]; then echo "yay" ; fi
+        echo $cpr
+        #if[[ $cpr =~ (prodsup|PRODSUP|Prodsup|ProdsUp)  ]]; then echo "yay" ; fi
 
 
 
