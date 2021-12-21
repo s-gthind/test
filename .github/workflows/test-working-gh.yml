@@ -16,7 +16,7 @@ jobs:
 #     1. If the ticket is ProdsUP then ignore updating the PR tite and add a comment to associate AIA ticket with PRODSUP #
 #     2. Every ticket should contain the corresponding AIA-XXXXXXX / OPS-XXXXXXXX / AXIOME-XXXXXXX                        #
 #                                                                                                                         #
-# Check if PRODSUP ticket has AIA-XXXX mentioned in title                                                                                                                        #
+# Check if PRODSUP ticket has AIA-XXXXX mentioned in title                                                                                                                        #
 #                                                                                                                         #
 # OPS-1938 https://mindbridge-ai.atlassian.net/browse/OPS-1938                                                            #
 #                                                                                                                         #
