@@ -4,7 +4,7 @@ on:
     types: ['opened']
 
 jobs:
-  action-check-pr:
+  action-check-pr-check:
     runs-on: ubuntu-latest
     steps:
 
