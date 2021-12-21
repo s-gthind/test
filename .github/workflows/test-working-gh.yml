@@ -16,6 +16,7 @@ jobs:
 #     1. If the ticket is ProdsUP then ignore updating the PR tite and add a comment to associate AIA ticket with PRODSUP #
 #     2. Every ticket should contain the corresponding AIA-XXXXXXX / OPS-XXXXXXXX / AXIOME-XXXXXXX                        #
 #                                                                                                                         #
+# Check if PRODSUP ticket has AIA-XXXX mentioned in title                                                                                                                        #
 #                                                                                                                         #
 # OPS-1938 https://mindbridge-ai.atlassian.net/browse/OPS-1938                                                            #
 #                                                                                                                         #
@@ -25,7 +26,7 @@ jobs:
       run: |
         cPR=$(gh pr view  $PR --jq=.title --json=title)
         echo $cPR
-        if [[ $cPR =~ (prodsup|PRODSUP|Prodsup|ProdsUp)  ]]; then gh pr comment "$PR" --body "Please add an AIA Jira ticket to the title of this pull request so we can track it for change management and to make it easier to find during annual audits. Pull requests for this repository should be tied to one or more Jira tickets."; exit 0 ; fi
+        if [[ $cPR =~ (prodsup|PRODSUP|Prodsup|ProdsUp)  ]]; then if [[ $cPR =~ (AIA) ]]; then exit 0; else gh pr comment "$PR" --body "Please add an AIA Jira ticket to the title of this pull request so we can track it for change management and to make it easier to find during annual audits. Pull requests for this repository should be tied to one or more Jira tickets."; fi ; fi
         
         cb=$(gh pr view  $PR --jq=.headRefName --json=headRefName | tr "_" "-")
         echo $cb
