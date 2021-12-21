@@ -26,7 +26,7 @@ jobs:
       run: |
         cPR=$(gh pr view  $PR --jq=.title --json=title)
         echo $cPR
-        if [[ $cPR =~ (prodsup|PRODSUP|Prodsup|ProdsUp)  ]]; then if [[ $cPR =~ (AIA) ]]; then exit 0; else gh pr comment "$PR" --body "Please add an AIA Jira ticket to the title of this pull request so we can track it for change management and to make it easier to find during annual audits. Pull requests for this repository should be tied to one or more Jira tickets."; fi ; fi
+        if [[ $cPR =~ (prodsup|PRODSUP|Prodsup|ProdsUp)  ]]; then if [[ $cPR =~ (AIA) ]]; then exit 0; else gh pr comment "$PR" --body "Please add an AIA Jira ticket to the title of this pull request so we can track it for change management and to make it easier to find during annual audits. Pull requests for this repository should be tied to one or more Jira tickets."; fi ; exit 0; fi
         
         cb=$(gh pr view  $PR --jq=.headRefName --json=headRefName | tr "_" "-")
         echo $cb
