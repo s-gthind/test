@@ -41,7 +41,10 @@ jobs:
         ticket_number_from_branch=$(echo "$subString1-$subString2")
         echo "$ticket_number_from_branch"
 
-        if [[ "$title" != "*$ticket_number_from_branch*"  ]]; then gh pr edit "$PR" -t "$ticket_number_from_branch $title" ; fi
+        if [[ "$title" != "*$ticket_number_from_branch*"  ]]; 
+        then 
+          gh pr edit "$PR" -t "$ticket_number_from_branch $title" ; 
+        fi
 
 
 
