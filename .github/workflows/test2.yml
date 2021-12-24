@@ -25,7 +25,15 @@ jobs:
     - name: Capture Triggered PR
       run: |
         title=$(gh pr view  $PR --jq=.title --json=title)
-        if [[ "$title" =~ (prodsup|PRODSUP|Prodsup|ProdsUp)  ]]; then if [[ "$title" =~ (AIA) ]]; then exit 0; else gh pr comment "$PR" --body "Please add an AIA Jira ticket to the title of this pull request so we can track it for change management and to make it easier to find during annual audits. Pull requests for this repository should be tied to one or more Jira tickets."; fi ; exit 0; fi
+        if [[ "$title" =~ (prodsup|PRODSUP|Prodsup|ProdsUp)  ]]; 
+        then 
+          if [[ "$title" =~ (AIA) ]]; 
+          then 
+            exit 0; 
+          else gh pr comment "$PR" --body "Please add an AIA Jira ticket to the title of this pull request so we can track it for change management and to make it easier to find during annual audits. Pull requests for this repository should be tied to one or more Jira tickets."; 
+          fi ; 
+          exit 0; 
+        fi
 
         branch_name=$(gh pr view  $PR --jq=.headRefName --json=headRefName | tr "_" "-")
         subString1=$(echo "$branch_name" | cut -d'-' -f 1)
