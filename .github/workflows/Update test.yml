@@ -22,7 +22,7 @@ jobs:
 #                                                                                                                         #
 ###########################################################################################################################
 
-    - name: Capture Triggered PR
+    - name: Validating Branch 
       run: |
         branch_name=$(gh pr view  $PR --jq=.headRefName --json=headRefName | tr "_" "-")
         valid_ticket_in_branch_name=0
@@ -38,6 +38,11 @@ jobs:
         then
           valid_ticket_in_branch_name=0
         fi
+        echo $valid_ticket_in_branch_name      
+  
+        
+    - name: Validating Title
+      run: |
         title=$(gh pr view  $PR --jq=.title --json=title)
         title_dashes=$(echo "$title" | tr "_: " "-")
         valid_ticket_in_title=0
@@ -54,21 +59,8 @@ jobs:
           valid_ticket_in_title=0
         fi
         echo $valid_ticket_in_title
-        echo $valid_ticket_in_branch_name
-        if [ "$valid_ticket_in_title" -eq 1  ]
-        then
-          exit 0
-        elif [ "$valid_ticket_in_title" -eq 0  ]
-        then
-          if [ "$valid_ticket_in_branch_name" -eq 1  ]
-          then
-            ticket_number_from_branch=$(echo "$subString1-$subString2")
-            echo "$ticket_number_from_branch"
-            gh pr edit "$PR" -t "$ticket_number_from_branch $title" 
-          else 
-            gh pr comment "$PR" --body "Please add an AIA Jira ticket to the title of this pull request so we can track it for change management and to make it easier to find during annual audits. Pull requests for this repository should be tied to one or more Jira tickets."
-          fi
-        fi
+
+
         
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
