@@ -67,9 +67,9 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         PR: ${{ github.event.number }}
         
-    - name: Validating Title For JIRA Ticket Number
+    - name: Check If Title has JIRA Ticket Number
       run: |
-        if [ "$valid_ticket_in_title" -eq 1  ]
+        if [ "$valid_ticket_in_title" == 1  ]
         then
           exit 0
         fi
