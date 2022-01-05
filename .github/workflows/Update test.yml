@@ -38,8 +38,11 @@ jobs:
         then
           valid_ticket_in_branch_name=0
         fi
-        echo $valid_ticket_in_branch_name      
-  
+        echo $valid_ticket_in_branch_name 
+        
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        PR: ${{ github.event.number }}  
         
     - name: Validating Title
       run: |
