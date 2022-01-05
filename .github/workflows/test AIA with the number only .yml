@@ -55,9 +55,19 @@ jobs:
           valid_ticket_in_title=0
         fi
         echo $valid_ticket_in_title
-        if [ $valid_ticket_in_title -eq 1  ]
+        if [ "$valid_ticket_in_title" -eq 1  ]
         then
           exit 0
+        else [ "$valid_ticket_in_title" -eq 0  ]
+        then
+          if [ "$valid_ticket_in_branch_name" -eq 1  ]
+          then
+            ticket_number_from_branch=$(echo "$subString1-$subString2")
+            echo "$ticket_number_from_branch"
+            gh pr edit "$PR" -t "$ticket_number_from_branch $title" 
+          else 
+            gh pr comment "$PR" --body "Please add an AIA Jira ticket to the title of this pull request so we can track it for change management and to make it easier to find during annual audits. Pull requests for this repository should be tied to one or more Jira tickets."
+          fi
         fi
         
       env:
