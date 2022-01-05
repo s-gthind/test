@@ -58,7 +58,7 @@ jobs:
         if [ "$valid_ticket_in_title" -eq 1  ]
         then
           exit 0
-        else [ "$valid_ticket_in_title" -eq 0  ]
+        elif [ "$valid_ticket_in_title" -eq 0  ]
         then
           if [ "$valid_ticket_in_branch_name" -eq 1  ]
           then
