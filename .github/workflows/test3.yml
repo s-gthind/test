@@ -38,7 +38,6 @@ jobs:
         then
           valid_ticket_in_branch_name=0
         fi
-        echo $valid_ticket_in_branch_name
         title=$(gh pr view  $PR --jq=.title --json=title)
         title_dashes=$(echo "$title" | tr "_: " "-")
         valid_ticket_in_branch_name=0
@@ -55,6 +54,7 @@ jobs:
           valid_ticket_in_title=0
         fi
         echo $valid_ticket_in_title
+        echo $valid_ticket_in_branch_name
         if [ "$valid_ticket_in_title" -eq 1  ]
         then
           exit 0
