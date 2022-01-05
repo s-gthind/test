@@ -40,7 +40,7 @@ jobs:
         fi
         title=$(gh pr view  $PR --jq=.title --json=title)
         title_dashes=$(echo "$title" | tr "_: " "-")
-        valid_ticket_in_branch_name=0
+        valid_ticket_in_title=0
         subString3=$(echo "$title_dashes" | cut -d'-' -f 1)
         jira_project_from_branch_name=$(echo "$subString3" | tr a-z A-Z)
         case "$jira_project_from_title" in
