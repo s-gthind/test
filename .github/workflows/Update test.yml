@@ -48,8 +48,8 @@ jobs:
             valid_ticket_in_title=1
             ;;
         esac
-        subStringr4=$(echo "$title_dashes" | cut -d'-' -f 2)
-        if ! [[ "$subStringr4" =~ ^[0-9]+$ ]]
+        subString4=$(echo "$title_dashes" | cut -d'-' -f 2)
+        if ! [[ "$subString4" =~ ^[0-9]+$ ]]
         then
           valid_ticket_in_title=0
         fi
