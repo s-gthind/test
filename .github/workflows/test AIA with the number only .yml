@@ -39,7 +39,27 @@ jobs:
           valid_ticket_in_branch_name=0
         fi
         echo $valid_ticket_in_branch_name
-
+        title=$(gh pr view  $PR --jq=.title --json=title)
+        title_dashes=$(echo "$title" | tr "_: " "-")
+        valid_ticket_in_branch_name=0
+        subString3=$(echo "$title_dashes" | cut -d'-' -f 1)
+        jira_project_from_branch_name=$(echo "$subString3" | tr a-z A-Z)
+        case "$jira_project_from_title" in
+          AIA|OPS|AXIOME)
+            valid_ticket_in_title=1
+            ;;
+        esac
+        subStringr4=$(echo "$title_dashes" | cut -d'-' -f 2)
+        if ! [[ "$subStringr4" =~ ^[0-9]+$ ]]
+        then
+          valid_ticket_in_title=0
+        fi
+        echo $valid_ticket_in_title
+        if [ $valid_ticket_in_title -eq 1  ]
+        then
+          exit 0
+        fi
+        
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         PR: ${{ github.event.number }}
