@@ -13,10 +13,10 @@ jobs:
 ###########################################################################################################################
 #                                                                                                                         #
 # This Action checks the following condition and updates the PR title appropriately.                                      #
-#     1. If the ticket is ProdsUP then ignore updating the PR tite and add a comment to associate AIA ticket with PRODSUP #
-#     2. Every ticket should contain the corresponding AIA-XXXX / OPS-XXXX / AXIOME-XXXXX                                 #
+#     1. EITHER VALID JIRA TICKET IN THE TITLE OF THE PR                                                                  #
+#     2. OR VALID JIRA TICKET IN THE BRANCH NAME OF THE PR                                                                #
+#     3. IF BOTH OF THE ABOVE SCENORIOS ARE MISSING ADD A COMMENT TO PR TO ASSOCIATE A TICKET IN THE PR TITLE             #
 #                                                                                                                         #
-# Check if PRODSUP ticket has AIA-XXXX mentioned in title                                                                 #
 #                                                                                                                         #
 # OPS-1938 https://mindbridge-ai.atlassian.net/browse/OPS-1938                                                            #
 #                                                                                                                         #
@@ -24,38 +24,46 @@ jobs:
 
     - name: Capture Triggered PR
       run: |
-        set -x
         branch_name=$(gh pr view  $PR --jq=.headRefName --json=headRefName | tr "_" "-")
         valid_ticket_in_branch_name=0
+        
         subString1=$(echo "$branch_name" | cut -d'-' -f 1)
         jira_project_from_branch_name=$(echo "$subString1" | tr a-z A-Z)
+        
         case "$jira_project_from_branch_name" in
           AIA|OPS|AXIOME)
             valid_ticket_in_branch_name=1
             ;;
         esac
+        
         subString2=$(echo "$branch_name" | cut -d'-' -f 2)
+        
         if ! [[ "$subString2" =~ ^[0-9]+$ ]]
         then
           valid_ticket_in_branch_name=0
         fi
+        
         title=$(gh pr view  $PR --jq=.title --json=title)
         title_dashes=$(echo "$title" | tr "_: " "-")
         valid_ticket_in_title=0
+        
         subString3=$(echo "$title_dashes" | cut -d'-' -f 1)
-        jira_project_from_branch_name=$(echo "$subString3" | tr a-z A-Z)
+        jira_project_from_title=$(echo "$subString3" | tr a-z A-Z)
+        
         case "$jira_project_from_title" in
           AIA|OPS|AXIOME)
             valid_ticket_in_title=1
             ;;
         esac
-        subStringr4=$(echo "$title_dashes" | cut -d'-' -f 2)
-        if ! [[ "$subStringr4" =~ ^[0-9]+$ ]]
+        
+        subString4=$(echo "$title_dashes" | cut -d'-' -f 2)
+        if ! [[ "$subString4" =~ ^[0-9]+$ ]]
         then
           valid_ticket_in_title=0
         fi
         echo $valid_ticket_in_title
         echo $valid_ticket_in_branch_name
+        
         if [ "$valid_ticket_in_title" -eq 1  ]
         then
           exit 0
