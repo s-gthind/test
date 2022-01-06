@@ -14,7 +14,7 @@ jobs:
 #                                                                                                                         #
 # This Action checks the following condition and updates the PR title appropriately.                                      #
 #     1. EITHER VALID JIRA TICKET IS PRESENT IN THE TITLE OF THE PR                                                       #
-#     2. OR VALID JIRA TICKET IN THE BRANCH NAME OF THE PR                                                                #
+#     2. OR VALID JIRA TICKET IS PRESENT IN THE BRANCH NAME OF THE PR ADD THAT TICKET NUMBER TO PR TITLE                  #
 #     3. IF BOTH OF THE ABOVE SCENORIOS ARE MISSING ADD A COMMENT TO PR TO ASSOCIATE A TICKET IN THE PR TITLE             #
 #                                                                                                                         #
 #                                                                                                                         #
