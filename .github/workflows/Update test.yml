@@ -32,6 +32,7 @@ jobs:
           exit 0;
         fi
         
+        echo "yay"
         
         subString1=$(echo "$branch_name" | cut -d'-' -f 1)
         jira_project_from_branch_name=$(echo "$subString1" | tr a-z A-Z)
