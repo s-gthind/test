@@ -16,7 +16,7 @@ jobs:
 #     2. OR VALID JIRA TICKET IS PRESENT IN THE BRANCH NAME OF THE PR ADD THAT TICKET NUMBER TO PR TITLE                                 #
 #     3. IF BOTH OF THE ABOVE SCENORIOS ARE MISSING ADD A COMMENT TO PR TO ASSOCIATE A TICKET IN THE PR TITLE                            #
 #     4. IT DOES NOT WARN FOR ANY PR THAT IS MERGING DOWN DIRECTLY FROM RELEASE_CANDIDATE TO PREVIEW AND PREVIEW TO RELEASE_CANDIDATE   THE BRANCH NAME BEGINS WITH NAME LIKE "merge_prev_dev_xyz"  # Checked
-#     5. IT DOES NOT WARN FOR ANY PR FOR WHICH                                 #
+#     5. IT DOES NOT WARN FOR ANY PR FOR WHICH THE BRANCH NAME IS PREVIEW OR RELEASE_CANDIDATE                               
 #                                                                                                                                        #
 #                                                                                                                                        #
 # OPS-1938 https://mindbridge-ai.atlassian.net/browse/OPS-1938                                                                           #
