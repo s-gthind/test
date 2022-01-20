@@ -1,0 +1,86 @@
+on:
+  pull_request:
+    types: ['opened']
+
+jobs:
+  pr_title_check:
+    runs-on: ubuntu-latest
+    steps:
+
+    - uses: actions/checkout@v2
+
+##########################################################################################################################################
+#                                                                                                                                        #
+# This Action checks the following condition and updates the PR title appropriately.                                                     #
+#     1. EITHER VALID JIRA TICKET IS PRESENT IN THE TITLE OF THE PR                                                                      #
+#     2. OR VALID JIRA TICKET IS PRESENT IN THE BRANCH NAME OF THE PR ADD THAT TICKET NUMBER TO PR TITLE                                 #
+#     3. IF BOTH OF THE ABOVE SCENORIOS ARE MISSING ADD A COMMENT TO PR TO ASSOCIATE A TICKET IN THE PR TITLE                            #
+#     4. IT DOES NOT WARN FOR ANY PR THAT IS MERGING DOWN DIRECTLY FROM RELEASE_CANDIDATE TO PREVIEW AND PREVIEW TO RELEASE_CANDIDATE    #
+#     5. IT DOES NOT WARN FOR ANY PR FOR WHICH THE BRANCH NAME BEGINS WITH NAME LIKE "merge_prev_dev_xyz"                                #
+#                                                                                                                                        #
+#                                                                                                                                        #
+# OPS-1938 https://mindbridge-ai.atlassian.net/browse/OPS-1938                                                                           #
+#                                                                                                                                        #
+##########################################################################################################################################
+
+    - name: Capture Triggered PR
+      run: |
+        branch_name=$(gh pr view  $PR --jq=.headRefName --json=headRefName)
+        branch_name_hyphens=$(echo "$branch_name" | tr "_" "-")
+        valid_ticket_in_branch_name=0
+
+        jira_project_from_branch_name=$(echo "$branch_name_hyphens" | cut -d'-' -f 1 | tr a-z A-Z )
+
+        if [[ "$branch_name" == preview || "$branch_name" == release_candidate || "$branch_name" == merge* ]]
+        then
+          exit 0
+        fi
+
+        case "$jira_project_from_branch_name" in
+          AIA|OPS|AXIOME)
+            valid_ticket_in_branch_name=1
+            ;;
+        esac
+
+        jira_ticket_from_branch_name=$(echo "$branch_name" | cut -d'-' -f 2)
+
+        if ! [[ "$jira_ticket_from_branch_name" =~ ^[0-9]+$ ]]
+        then
+          valid_ticket_in_branch_name=0
+        fi
+
+        title=$(gh pr view  $PR --jq=.title --json=title)
+        title_dashes=$(echo "$title" | tr "_: " "-")
+        valid_ticket_in_title=0
+
+        jira_project_from_title=$(echo "$title_dashes" | cut -d'-' -f | tr a-z A-Z)
+
+        case "$jira_project_from_title" in
+          AIA|OPS|AXIOME)
+            valid_ticket_in_title=1
+            ;;
+        esac
+
+        jira_ticket_from_title=$(echo "$title_dashes" | cut -d'-' -f 2)
+        if ! [[ "$jira_ticket_from_title" =~ ^[0-9]+$ ]]
+        then
+          valid_ticket_in_title=0
+        fi
+
+        if [ "$valid_ticket_in_title" -eq 1  ]
+        then
+          exit 0
+        elif [ "$valid_ticket_in_title" -eq 0  ]
+        then
+          if [ "$valid_ticket_in_branch_name" -eq 1  ]
+          then
+            ticket_number_from_branch=$(echo "$jira_project_from_branch_name-$jira_ticket_from_branch_name")
+            gh pr edit "$PR" -t "$ticket_number_from_branch $title"
+          else
+            gh pr comment "$PR" --body "Please add an AIA Jira ticket to the title of this pull request so we can track it for change management and to make it easier to find during annual audits. Pull requests for this repository should be tied to one or more Jira tickets."
+          fi
+        fi
+
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        PR: ${{ github.event.number }}
