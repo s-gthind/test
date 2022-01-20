@@ -28,7 +28,7 @@ jobs:
         valid_ticket_in_branch_name=0
         
         case "$branch_name" in
-          preview|release_candidate)
+          preview|release-candidate)
             exit 0
             ;;
         esac
