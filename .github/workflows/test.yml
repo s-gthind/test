@@ -13,8 +13,8 @@ jobs:
 #                                                                                                                                        #
 # This Action checks the following condition and updates the PR title appropriately.                                                     #
 #     1. EITHER VALID JIRA TICKET IS PRESENT IN THE TITLE OF THE PR                                                                      #
-#     2. OR VALID JIRA TICKET IS PRESENT IN THE BRANCH NAME OF THE PR ADD THAT TICKET NUMBER TO PR TITLE                                 #
-#     3. IF BOTH OF THE ABOVE SCENORIOS ARE MISSING ADD A COMMENT TO PR TO ASSOCIATE A TICKET IN THE PR TITLE                            #
+#   T  2. OR VALID JIRA TICKET IS PRESENT IN THE BRANCH NAME OF THE PR ADD THAT TICKET NUMBER TO PR TITLE                                 #
+#  T   3. IF BOTH OF THE ABOVE SCENORIOS ARE MISSING ADD A COMMENT TO PR TO ASSOCIATE A TICKET IN THE PR TITLE                            #
 #  T   4. IT DOES NOT WARN FOR ANY PR THAT IS MERGING DOWN DIRECTLY FROM RELEASE_CANDIDATE TO PREVIEW AND PREVIEW TO RELEASE_CANDIDATE   THE BRANCH NAME BEGINS WITH NAME LIKE "merge_prev_dev_xyz"  # Checked
 #  T   5. IT DOES NOT WARN FOR ANY PR FOR WHICH THE BRANCH NAME IS PREVIEW OR RELEASE_CANDIDATE    TEsted                           
 #                                                                                                                                        #
