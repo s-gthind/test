@@ -25,7 +25,7 @@ jobs:
 
     - name: Capture Triggered PR
       run: |
-        name=$(event.sender.login)
+        name=${{ github.event.user.login }}
         echo $name
      
 
