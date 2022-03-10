@@ -25,7 +25,7 @@ jobs:
 
     - name: Capture Triggered PR
       run: |
-        name=${{ github.event.pull_request.sender }}
+        name=${{ github.event.pull_request.merged_by.login }}
         echo $name
      
 
