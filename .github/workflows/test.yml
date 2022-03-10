@@ -27,7 +27,9 @@ jobs:
       run: |
         branch_name=$(gh pr view  $PR --jq=.headRefName --json=headRefName)
         echo "This PR is opened by ${{ github.event.pull_request.user.login }} ."
-
+        a_n=${{ github.event.pull_request.user.login }}
+        echo $a_n
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         PR: ${{ github.event.number }}
+        
