@@ -28,8 +28,7 @@ jobs:
         branch_name=$(gh pr view  $PR --jq=.headRefName --json=headRefName)
         echo "This PR is opened by ${{ github.event.pull_request.user.login }} ."
         a_n=${{ github.event.pull_request.user.login }}
-        gh pr comment "$PR" --body "There are conflicts while merging the $base down to @$a_n. Please resolve the conflicts manually. "
-
+        echo $a_n
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         PR: ${{ github.event.number }}
